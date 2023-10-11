@@ -1,11 +1,20 @@
-const express = require('express')
-const app = express()
-const port = 3000
+const express = require('express');
+const app = express();
+const port = 3001;
+const host = '0.0.0.0';
 
-app.get('/', (req, res) => {
-  res.send('Hello World!')
-})
+const mongoose = require("mongoose");
+mongoose.connect("mongodb://127.0.0.1:27017/apinode");
 
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
-})
+app.use(express.urlencoded());
+app.use(express.json());
+
+
+const postRoute = require('./routes/postRoute');
+const commentRoute = require('./routes/commentRoute');
+
+app.use('/posts', postRoute);
+app.use('/', commentRoute);
+
+
+app.listen(port, host);
